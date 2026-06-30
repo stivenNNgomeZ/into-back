@@ -2,6 +2,13 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
+const usersRouter = require('./src/routes/users');
+const tasksRouter = require('./src/routes/tasks');
+
+app.use(express.json());
+app.use('/users', usersRouter);
+app.use('/tasks', tasksRouter);
+
 app.get('/', (req, res) => {
   res.send('Bienvenido al Sistema de Gestión Académica');
 });
