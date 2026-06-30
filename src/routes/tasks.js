@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.send('Lista de tareas: aquí se mostrarán todas las tareas pendientes y completadas');
+  res.json([
+    { id: 1, titulo: 'Hacer informe', completada: false },
+    { id: 2, titulo: 'Estudiar Express', completada: true }
+  ]);
 });
 
 router.post('/', (req, res) => {
-  res.send('Crear tarea: aquí se registrará una nueva tarea');
+  res.json({ mensaje: 'Tarea creada', tarea: req.body });
 });
 
 module.exports = router;
