@@ -1,37 +1,21 @@
-const express = require('express');
-const os = require('os');
+// ─── Dependencias ───
+const express = require('express');         // Framework web para Node.js
+const os = require('os');                   // Módulo nativo para info del sistema
 const app = express();
 const PORT = 4000;
 
-const usersRouter = require('./src/routes/users');
-const tasksRouter = require('./src/routes/tasks');
+// ─── Middleware global ───
+app.use(express.json());                    // Convierte el body a JSON automáticamente
 
-app.use(express.json());
-app.use('/users', usersRouter);
-app.use('/tasks', tasksRouter);
+// ─── Rutas de la API ───
+app.use('/', require('./src/routes/home'));           // GET / → info del proyecto
+app.use('/users', require('./src/routes/users'));     // CRUD de usuarios
+app.use('/tasks', require('./src/routes/tasks'));     // CRUD de tareas
+app.use('/aprendices', require('./src/routes/aprendices'));   // CRUD de aprendices
+app.use('/programas', require('./src/routes/programas'));     // CRUD de programas
+app.use('/pqrs', require('./src/routes/pqrs'));       // CRUD de PQRS
 
-app.get('/', (req, res) => {
-  res.json({
-    proyecto: 'Sistema de Gestión Académica',
-    version: '1.0.0',
-    rutas: ['/aprendices', '/programas', '/users', '/tasks']
-  });
-});
-
-app.get('/aprendices', (req, res) => {
-  res.json([
-    { id: 1, nombre: 'Carlos', programa: 'ADSO' },
-    { id: 2, nombre: 'María', programa: 'ADSO' }
-  ]);
-});
-
-app.get('/programas', (req, res) => {
-  res.json([
-    { id: 1, nombre: 'ADSO', descripcion: 'Análisis y Desarrollo de Software' },
-    { id: 2, nombre: 'Producción Multimedia', descripcion: 'Producción de contenidos digitales' }
-  ]);
-});
-
+// ─── Detección automática de IP local ───
 const networkInterfaces = os.networkInterfaces();
 let localIP = 'localhost';
 for (const iface of Object.values(networkInterfaces)) {
@@ -42,6 +26,7 @@ for (const iface of Object.values(networkInterfaces)) {
   }
 }
 
+// ─── Inicio del servidor ───
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor corriendo en:`);
   console.log(`  Local:    http://localhost:${PORT}`);

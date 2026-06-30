@@ -1,15 +1,11 @@
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+const router = Router();
+const controller = require('../controllers/tasksController');
 
-router.get('/', (req, res) => {
-  res.json([
-    { id: 1, titulo: 'Hacer informe', completada: false },
-    { id: 2, titulo: 'Estudiar Express', completada: true }
-  ]);
-});
-
-router.post('/', (req, res) => {
-  res.json({ mensaje: 'Tarea creada', tarea: req.body });
-});
+router.get('/', controller.getAll);         // GET /tasks → lista completa
+router.get('/:id', controller.getById);     // GET /tasks/:id → una tarea
+router.post('/', controller.create);        // POST /tasks → crear tarea
+router.put('/:id', controller.update);      // PUT /tasks/:id → actualizar
+router.delete('/:id', controller.remove);   // DELETE /tasks/:id → eliminar
 
 module.exports = router;

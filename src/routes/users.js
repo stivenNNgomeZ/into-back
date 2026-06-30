@@ -1,15 +1,11 @@
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+const router = Router();
+const controller = require('../controllers/usersController');
 
-router.get('/', (req, res) => {
-  res.json([
-    { id: 1, nombre: 'Stiven', email: 'stiven@email.com' },
-    { id: 2, nombre: 'Laura', email: 'laura@email.com' }
-  ]);
-});
-
-router.post('/', (req, res) => {
-  res.json({ mensaje: 'Usuario creado', usuario: req.body });
-});
+router.get('/', controller.getAll);         // GET /users → lista completa
+router.get('/:id', controller.getById);     // GET /users/:id → un usuario
+router.post('/', controller.create);        // POST /users → crear usuario
+router.put('/:id', controller.update);      // PUT /users/:id → actualizar
+router.delete('/:id', controller.remove);   // DELETE /users/:id → eliminar
 
 module.exports = router;
